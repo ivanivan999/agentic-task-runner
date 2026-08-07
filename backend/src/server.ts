@@ -1,0 +1,21 @@
+import express from "express";
+import cors from "cors";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+import { AgentController } from "./agent/agentController.js";
+import { ToolRegistry } from "./agent/toolRegistry.js";
+import { createRouter } from "./api/routes.js";
+import { JsonFileTaskRepository } from "./storage/jsonFileTaskRepository.js";
+
+const here = dirname(fileURLToPath(import.meta.url));
+const registry = new ToolRegistry();
+const repository = new JsonFileTaskRepository(join(here, "storage", "data", "tasks.json"));
+const agent = new AgentController(registry, repository);
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.get("/health", (_req, res) => res.json({ status: "ok" }));
+app.use("/api", createRouter(agent, repository, registry));
+app.use((_error: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => res.status(500).json({ error: "Internal server error." }));
+const port = Number(process.env.PORT) || 3001;
+app.listen(port, () => console.log(`Agent Task Runner API listening on http://localhost:${port}`));

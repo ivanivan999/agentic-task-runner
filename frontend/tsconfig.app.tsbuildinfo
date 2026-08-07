@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/types.ts","./src/api/tasksclient.ts","./src/components/historylist.tsx","./src/components/resultpanel.tsx","./src/components/taskform.tsx","./src/components/traceviewer.tsx"],"version":"5.9.3"}
