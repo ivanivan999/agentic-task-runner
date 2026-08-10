@@ -4,7 +4,7 @@ A full-stack task runner built for a coding challenge. You type a task in plain 
 
 ## Run locally
 
-Requires Node.js 20+.
+Requires Node.js 24+.
 ```bash
 npm install
 npm start
