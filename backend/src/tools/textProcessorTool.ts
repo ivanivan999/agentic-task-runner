@@ -28,7 +28,7 @@ export class TextProcessorTool implements Tool {
     const quoted = input.match(/["'](.+)["']/)?.[1];
     if (quoted) return quoted.trim();
     return input
-      .replace(/\b(convert|change|make|to|the|text|uppercase|lowercase|capitalize|word count|count words|reverse|trim)\b/gi, "")
+      .replace(/\b(convert|covert|change|make|to|the|text|uppercase|lowercase|capitalize|word count|count words|reverse|trim)\b/gi, "")
       .replace(/\s+/g, " ").trim();
   }
 }

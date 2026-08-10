@@ -4,12 +4,15 @@ export class CalculatorTool implements Tool {
   readonly name = "CalculatorTool";
   readonly description = "Solves a simple two-number calculation using +, -, *, or /.";
   private expression = /(-?\d+(?:\.\d+)?)\s*(\+|-|\*|\/|x|times|plus|minus)\s*(-?\d+(?:\.\d+)?)/i;
+  private addExpression = /\badd\s+(-?\d+(?:\.\d+)?)\s+(?:and|to)\s+(-?\d+(?:\.\d+)?)/i;
 
   canHandle(input: string): number {
-    return this.expression.test(input) ? 0.95 : 0;
+    return this.expression.test(input) || this.addExpression.test(input) ? 0.95 : 0;
   }
 
   execute(input: string): ToolResult {
+    const wordMatch = input.match(this.addExpression);
+    if (wordMatch) return { output: String(Number(wordMatch[1]) + Number(wordMatch[2])) };
     const match = input.match(this.expression);
     if (!match) throw new Error("I can calculate one expression with two numbers.");
     const [, leftText, operatorText, rightText] = match;

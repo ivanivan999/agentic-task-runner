@@ -1,0 +1,1 @@
+export function UserBubble({ input, live }: { input: string; live?: boolean }) { return <article className={`message user-message ${live ? "sent" : ""}`}><div><span className="message-label">You</span><p>{input}</p></div></article>; }
