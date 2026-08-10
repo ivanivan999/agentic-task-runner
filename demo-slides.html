@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agentic Task Runner · Demo Deck</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600&display=swap');
+    :root { --paper:#f6f7fb; --ink:#12141c; --slate:#6b7280; --signal:#4c5fd5; --confirm:#1e9e6b; --alert:#d8483d; }
+    * { box-sizing:border-box; } body { margin:0; overflow:hidden; color:var(--ink); background:#e8eaf2; font-family:Inter,system-ui,sans-serif; }
+    .deck { position:relative; width:100vw; height:100vh; } .slide { display:none; position:absolute; inset:0; padding:clamp(34px,6vw,92px); background:var(--paper); }
+    .slide.active { display:flex; flex-direction:column; animation:fade .26s ease-out; } .slide::after { position:absolute; right:6vw; bottom:5.4vw; color:var(--slate); font:500 .75rem 'IBM Plex Mono',monospace; content:attr(data-page) " / 4"; }
+    .kicker { margin:0 0 18px; color:var(--signal); font:500 .82rem 'IBM Plex Mono',monospace; letter-spacing:.08em; text-transform:uppercase; }.title { max-width:950px; margin:0; font:600 clamp(3.5rem,8vw,7.8rem)/.94 'Space Grotesk',sans-serif; letter-spacing:-.075em; }.subtitle { max-width:650px; margin:32px 0 0; color:var(--slate); font-size:clamp(1.1rem,2vw,1.6rem); line-height:1.45; }.brand { display:grid; width:46px; height:46px; margin-top:auto; place-items:center; border-radius:12px; background:var(--signal); color:#fff; font:500 .85rem 'IBM Plex Mono',monospace; }
+    h2 { max-width:900px; margin:0 0 40px; font:600 clamp(2.4rem,5vw,4.8rem)/1 'Space Grotesk',sans-serif; letter-spacing:-.065em; } .split { display:grid; grid-template-columns:1fr 1.1fr; gap:clamp(30px,6vw,90px); align-items:center; flex:1; }.lead { color:var(--slate); font-size:1.15rem; line-height:1.55; }.lead strong { color:var(--ink); }.flow { display:grid; gap:0; }.flow div { position:relative; padding:17px 20px; border-left:2px solid #d9dcf8; background:#fff; font:500 .94rem 'IBM Plex Mono',monospace; }.flow div+div::before { position:absolute; top:-14px; left:-7px; color:var(--signal); content:"↓"; }.flow b { color:var(--signal); font-weight:500; }.callout { margin-top:28px; padding:18px 20px; border-left:4px solid var(--signal); background:#eef0ff; color:#303a94; line-height:1.5; }
+    .tool-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }.tool { min-height:190px; padding:24px; border:1px solid #e0e3ed; border-radius:14px; background:#fff; }.tool span { color:var(--signal); font:500 .72rem 'IBM Plex Mono',monospace; }.tool h3 { margin:16px 0 10px; font-size:1.2rem; }.tool p { margin:0; color:var(--slate); line-height:1.5; }.feature-line { display:flex; flex-wrap:wrap; gap:10px; margin-top:32px; }.feature-line span { padding:8px 10px; border-radius:999px; background:#eef0ff; color:#3948b0; font:500 .75rem 'IBM Plex Mono',monospace; }
+    .demo { display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(28px,6vw,86px); align-items:center; flex:1; }.demo-list { margin:0; padding:0; list-style:none; counter-reset:item; }.demo-list li { display:grid; grid-template-columns:38px 1fr; gap:14px; padding:16px 0; border-top:1px solid #dfe2eb; font-size:1.05rem; line-height:1.45; }.demo-list li::before { color:var(--signal); content:"0" counter(item); counter-increment:item; font:500 .85rem 'IBM Plex Mono',monospace; }.answer { padding:30px; border-radius:16px; background:var(--ink); color:#fff; }.answer p { margin:0 0 14px; color:#aeb6d6; font:500 .72rem 'IBM Plex Mono',monospace; letter-spacing:.08em; text-transform:uppercase; }.answer strong { display:block; font:500 clamp(1.45rem,3vw,2.55rem)/1.2 'Space Grotesk',sans-serif; letter-spacing:-.04em; }.answer small { display:block; margin-top:24px; color:#abb2c4; line-height:1.55; }
+    .controls { position:fixed; right:5vw; bottom:4vw; z-index:2; display:flex; gap:8px; }.controls button { width:38px; height:38px; border:1px solid #d9dce6; border-radius:50%; background:#fff; color:var(--ink); font-size:1.1rem; }.controls button:hover { border-color:var(--signal); color:var(--signal); }.hint { position:fixed; left:5vw; bottom:4.6vw; color:var(--slate); font:.7rem 'IBM Plex Mono',monospace; }
+    @keyframes fade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } } @media (max-width:700px) { .slide { overflow:auto; padding:36px 26px 80px; }.split,.demo { grid-template-columns:1fr; }.tool-grid { grid-template-columns:1fr; }.tool { min-height:0; }.title { font-size:3.3rem; }.hint { display:none; } }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-live="polite">
+    <section class="slide active" data-page="01">
+      <p class="kicker">AI engineer · agent platform foundation</p>
+      <h1 class="title">A small agent system, built like a platform.</h1>
+      <p class="subtitle">Agentic Task Runner demonstrates the core patterns behind trustworthy orchestration: routing, tools, state, retries, traceability, and a path to enterprise scale.</p>
+      <div class="brand">ATR</div>
+    </section>
+
+    <section class="slide" data-page="02">
+      <p class="kicker">Architecture & agent thinking</p>
+      <h2>Clear orchestration separates decisions from tools.</h2>
+      <div class="split">
+        <div><p class="lead">The controller owns <strong>routing, dependency-aware workflows, retries, and trace construction.</strong> Tools implement one small contract; persistence and transport remain separate.</p><div class="callout">This is a deliberately deterministic orchestration layer: transparent today, and ready for an LLM classifier behind the same interface later.</div></div>
+        <div class="flow"><div><b>01</b> Interpret task + score registered tools</div><div><b>02</b> Coordinate independent or dependent sub-tasks</div><div><b>03</b> Execute safely with bounded fallback</div><div><b>04</b> Stream trace + persist auditable state</div></div>
+      </div>
+    </section>
+
+    <section class="slide" data-page="03">
+      <p class="kicker">Engineering excellence</p>
+      <h2>Observability and quality are built into the happy path.</h2>
+      <div class="tool-grid">
+        <article class="tool"><span>OBSERVABILITY</span><h3>Flight Recorder</h3><p>Server-Sent Events expose every selection, attempt, result, skip, and timestamp as it happens.</p></article>
+        <article class="tool"><span>RELIABILITY</span><h3>Failure is explicit</h3><p>Bounded retries, no-match handling, partial results, and skipped dependencies are returned—not hidden.</p></article>
+        <article class="tool"><span>OPERATIONS</span><h3>Ready to run</h3><p>Tool and agent tests, production builds, Docker Compose, and CI validate the same workflow end to end.</p></article>
+      </div>
+      <div class="feature-line"><span>tool registry</span><span>workflow coordination</span><span>trace streaming</span><span>testable contracts</span><span>audit-ready history</span><span>Docker + CI</span></div>
+    </section>
+
+    <section class="slide" data-page="04">
+      <p class="kicker">Role alignment & live demo</p>
+      <h2>Prove the foundation—then evolve it responsibly.</h2>
+      <div class="demo">
+        <ol class="demo-list"><li><span>Run <strong>“what’s 12 × 7 and 5 + 3”</strong> to demonstrate workflow coordination.</span></li><li><span>Open Flight Recorder to show the full operational trace.</span></li><li><span>Run <strong>“flaky weather in Ottawa”</strong> to show visible retry behavior.</span></li><li><span>Close with the next evolution: Azure AI/Foundry routing, evaluations, metrics, and governed change.</span></li></ol>
+        <div class="answer"><p>Platform trajectory</p><strong>Deterministic core<br>→ governed AI layer</strong><small>Today: transparent patterns and testable controls. Next: LLM orchestration with Azure integration, evaluation signals, monitoring, and approval-ready configuration changes.</small></div>
+      </div>
+    </section>
+  </main>
+  <p class="hint">Use ← → or Space to navigate</p><nav class="controls" aria-label="Slide navigation"><button id="prev" aria-label="Previous slide">←</button><button id="next" aria-label="Next slide">→</button></nav>
+  <script>
+    const slides = [...document.querySelectorAll('.slide')]; let current = 0;
+    const render = (next) => { current = (next + slides.length) % slides.length; slides.forEach((slide, index) => slide.classList.toggle('active', index === current)); };
+    document.querySelector('#prev').addEventListener('click', () => render(current - 1)); document.querySelector('#next').addEventListener('click', () => render(current + 1));
+    window.addEventListener('keydown', (event) => { if (['ArrowRight', ' ', 'PageDown'].includes(event.key)) { event.preventDefault(); render(current + 1); } if (['ArrowLeft', 'PageUp'].includes(event.key)) { event.preventDefault(); render(current - 1); } });
+  </script>
+</body>
+</html>

@@ -16,7 +16,8 @@ button:focus-visible, textarea:focus-visible, select:focus-visible, a:focus-visi
 .sidebar h3 { margin: 0 8px 8px; color: #6B7280; font-size: .67rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 .activity-item { display: flex; align-items: center; gap: 3px; padding: 0 7px; border-radius: 7px; }
 .activity-item:hover { background: #F6F7FB; }
-.activity-item a { flex: 1; min-width: 0; padding: 8px 1px; overflow: hidden; color: #12141C; font-size: .78rem; text-decoration: none; text-overflow: ellipsis; white-space: nowrap; }
+.activity-item a { display: grid; flex: 1; min-width: 0; gap: 3px; padding: 8px 1px; overflow: hidden; color: #12141C; font-size: .78rem; text-decoration: none; }
+.activity-item a span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }.activity-item time { color: #6B7280; font: .62rem 'IBM Plex Mono', monospace; }
 .activity-item button { border: 0; background: transparent; color: #D8483D; font-size: 1.15rem; line-height: 1; opacity: .7; }
 .sidebar-empty { margin: 40px 8px; color: #6B7280; font-size: .78rem; line-height: 1.5; }
 .chat { display: grid; grid-column: 2; grid-template-rows: auto minmax(0, 1fr) auto; min-height: 100vh; }
@@ -28,7 +29,7 @@ button:focus-visible, textarea:focus-visible, select:focus-visible, a:focus-visi
 .role-panel select { appearance: none; padding: 7px 26px 7px 10px; border: 1px solid #d8dbe6; border-radius: 8px; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='m1 1 4 4 4-4' fill='none' stroke='%236B7280' stroke-width='1.5'/%3E%3C/svg%3E") right 9px center/10px no-repeat; color: #12141C; font-size: .78rem; font-weight: 600; }
 .new-user { padding: 7px 9px; border: 0; border-radius: 8px; background: transparent; color: #4C5FD5; font-size: .76rem; font-weight: 600; }
 .thread { width: min(800px, 100%); margin: 0 auto; padding: 48px clamp(18px, 4vw, 42px) 140px; }
-.turn { scroll-margin-top: 82px; margin-bottom: 42px; }
+.turn { scroll-margin-top: 82px; margin-bottom: 42px; }.turn-timestamp { display: block; margin: 0 auto 18px; color: #6B7280; font: .68rem 'IBM Plex Mono', monospace; letter-spacing: .02em; text-align: center; }
 .message { display: flex; gap: 12px; }
 .user-message { justify-content: flex-end; margin-bottom: 18px; animation: message-in .15s ease-out both; }
 .user-message > div { max-width: min(88%, 560px); padding: 11px 14px; border-radius: 12px 12px 3px 12px; background: #12141C; color: #F6F7FB; }
