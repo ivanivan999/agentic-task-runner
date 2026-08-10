@@ -1,6 +1,6 @@
 # Agentic Task Runner
 
-A full-stack task runner built for a coding challenge. You type a task in plain language into a chat-style interface; a deterministic agent scores every registered tool against the input, executes the best match, and shows you an inspectable, step-by-step trace of exactly how it decided — live, as it happens, not just after the fact.
+A full-stack task runner built for a coding challenge. You type a task in plain language into a chat-style interface; a deterministic agent scores every registered tool against the input, executes the best match, and shows you an inspectable, step-by-step trace of exactly how it decided.
 
 ## Run locally
 
