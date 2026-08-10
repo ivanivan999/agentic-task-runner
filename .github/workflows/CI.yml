@@ -14,16 +14,17 @@ concurrency:
 
 jobs:
   quality:
+    name: Tests and production build
     runs-on: ubuntu-latest
 
     steps:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Set up Node
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - name: Install dependencies
@@ -36,6 +37,7 @@ jobs:
         run: npm run build
 
   docker:
+    name: Docker validation
     runs-on: ubuntu-latest
     needs: quality
 
@@ -51,7 +53,33 @@ jobs:
 
       - name: Smoke-test containers
         run: |
+          set -e
+
+          cleanup() {
+            docker compose down --volumes --remove-orphans
+          }
+          trap cleanup EXIT
+
           docker compose up -d
-          curl --fail --retry 10 --retry-connrefused http://localhost:5173/
-          curl --fail --retry 10 --retry-connrefused http://localhost:5173/api/tools
-          docker compose down
+
+          ready=false
+
+          for attempt in $(seq 1 20); do
+            if curl --fail --silent --show-error \
+              --connect-timeout 3 \
+              http://localhost:5173/api/tools; then
+              ready=true
+              break
+            fi
+
+            echo "Waiting for services... (${attempt}/20)"
+            sleep 2
+          done
+
+          if [ "$ready" != true ]; then
+            echo "Services did not become ready."
+            docker compose logs --no-color
+            exit 1
+          fi
+
+          echo "Docker smoke test passed."
