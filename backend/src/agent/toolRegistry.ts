@@ -6,4 +6,5 @@ import { WeatherMockTool } from "../tools/weatherMockTool.js";
 export class ToolRegistry {
   constructor(private readonly tools: Tool[] = [new TextProcessorTool(), new CalculatorTool(), new WeatherMockTool()]) {}
   getAll(): Tool[] { return this.tools; }
+  register(tool: Tool): void { this.tools.unshift(tool); }
 }

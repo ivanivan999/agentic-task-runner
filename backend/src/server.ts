@@ -6,9 +6,13 @@ import { AgentController } from "./agent/agentController.js";
 import { ToolRegistry } from "./agent/toolRegistry.js";
 import { createRouter } from "./api/routes.js";
 import { JsonFileTaskRepository } from "./storage/jsonFileTaskRepository.js";
+import { LessonRepository } from "./french/lessonRepository.js";
+import { FrenchStudyTool } from "./tools/frenchStudyTool.js";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const registry = new ToolRegistry();
+const lessonRepository = new LessonRepository(join(here, "french", "data", "assimil-lessons.json"));
+registry.register(new FrenchStudyTool(lessonRepository));
 const repository = new JsonFileTaskRepository(join(here, "storage", "data", "tasks.json"));
 const agent = new AgentController(registry, repository);
 const app = express();

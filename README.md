@@ -1,5 +1,9 @@
 # Agentic Task Runner
 
+> The project is evolving into a local-first, text-only French study tutor. The
+> original task-runner tools are still available while the new lesson workflow
+> is developed incrementally.
+
 A full-stack task runner built for a coding challenge. You type a task in plain language into a chat-style interface; a deterministic agent scores every registered tool against the input, executes the best match, and shows you an inspectable, step-by-step trace of exactly how it decided.
 
 ## Run locally
@@ -12,6 +16,74 @@ npm start
 
 Open [http://localhost:5173](http://localhost:5173). 
 The API is available at `http://localhost:3001`; use `npm test` for backend unit tests and `npm run build` for type/build checks.
+
+## French tutor vertical slice
+
+The app now extracts all 100 lessons from `french/assimil_french_2020.pdf`
+into provider-neutral, lesson-aware JSON. Lesson 2 has the first curated study
+experience:
+
+- `study lesson 2`
+- `grammar lesson 2`
+- `flashcards lesson 2`
+- `writing practice lesson 2`
+- `check lesson 2: Je préfère un café pour moi, s'il vous plaît.`
+
+Other lesson requests return source-grounded OCR excerpts with PDF page numbers.
+The OCR should be checked against the source page when a phrase looks wrong.
+
+Regenerate the lesson data with the bundled/system Python environment after
+installing `pdfplumber`:
+
+```bash
+python3 scripts/extract_assimil_lessons.py \
+  french/assimil_french_2020.pdf \
+  backend/src/french/data/assimil-lessons.json
+```
+
+### Zero-cost architecture
+
+The required application path is entirely local:
+
+```text
+React UI -> Express agent -> local lesson JSON -> lexical retrieval
+```
+
+No Azure OpenAI, paid database, hosting plan, TTS, or WebRTC service is
+required. This keeps the tutor usable after promotional Azure credits expire.
+
+Azure AI Search is an optional learning adapter, not a runtime dependency. To
+experiment with vector search without service charges:
+
+1. Create exactly one Azure AI Search service using the **Free** SKU.
+2. Keep the app and PDF extraction local.
+3. Generate 384-dimensional embeddings locally with a small sentence-transformer model.
+4. Push only the 1.3 MB lesson JSON plus those vectors to a single index.
+5. Use a `lesson` filter for direct lesson requests and hybrid text/vector search
+   only for cross-lesson questions.
+6. Do not attach an Azure OpenAI vectorizer, semantic ranker, Blob indexer, or
+   any paid hosting resource.
+
+The Free SKU has limited storage and allows one free search service per
+subscription. Verify the portal shows **Free** before pressing Create. Current
+service limits are documented at
+[Microsoft Learn](https://learn.microsoft.com/en-us/azure/search/search-limits-quotas-capacity),
+and the vector-search quickstart explicitly supports the Free tier for small
+experiments:
+[vector search quickstart](https://learn.microsoft.com/en-us/azure/search/search-get-started-vector?pivots=rest).
+
+Keep `LOCAL` as the default search provider. A future Azure adapter should only
+activate when all of these are set explicitly:
+
+```text
+SEARCH_PROVIDER=azure-free
+AZURE_SEARCH_ENDPOINT=https://<service>.search.windows.net
+AZURE_SEARCH_INDEX=assimil-lessons
+AZURE_SEARCH_API_KEY=<query-or-admin-key>
+```
+
+Never commit the API key. If the Azure Free service is unavailable in the
+subscription, continue using local retrieval instead of selecting a paid SKU.
 
 
 ## System architecture
