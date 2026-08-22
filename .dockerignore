@@ -1,6 +1,14 @@
+.git
+.github
 node_modules
 **/node_modules
+dist
 **/dist
-.git
+.env*
+french/*.pdf
+*.log
 .DS_Store
 *.tsbuildinfo
+Interview_Walkthrough_Script.md
+interview-slides_1-revised.html
+interview-walkthrough-slides.html

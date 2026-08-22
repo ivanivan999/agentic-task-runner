@@ -51,6 +51,32 @@ export const createIngestionRequested = (
   requestedAt: new Date().toISOString(),
 });
 
+export const createIngestionCompleted = (
+  request: LessonIngestionRequested,
+  chunksIndexed: number,
+): LessonIngestionCompleted => ({
+  eventType: "lesson.ingestion.completed",
+  eventVersion: 1,
+  jobId: request.jobId,
+  lesson: request.lesson,
+  chunksIndexed,
+  completedAt: new Date().toISOString(),
+});
+
+export const createIngestionFailed = (
+  request: LessonIngestionRequested,
+  error: unknown,
+  attempt = 1,
+): LessonIngestionFailed => ({
+  eventType: "lesson.ingestion.failed",
+  eventVersion: 1,
+  jobId: request.jobId,
+  lesson: request.lesson,
+  attempt,
+  error: error instanceof Error ? error.message : "Unexpected ingestion error.",
+  failedAt: new Date().toISOString(),
+});
+
 export const parseLessonEvent = (raw: string): LessonEvent => {
   const value = JSON.parse(raw) as Partial<LessonEvent>;
   if (

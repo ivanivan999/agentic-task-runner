@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
+  createIngestionCompleted,
+  createIngestionFailed,
   createIngestionRequested,
   parseLessonEvent,
   parseLessonNumber,
@@ -36,5 +38,22 @@ describe("Kafka lesson events", () => {
     expect(() => parseLessonEvent('{"hello":"world"}')).toThrow(
       "Message is not a supported lesson event.",
     );
+  });
+
+  it("correlates completion and failure events to their request", () => {
+    const request = createIngestionRequested(2);
+    expect(createIngestionCompleted(request, 4)).toMatchObject({
+      eventType: "lesson.ingestion.completed",
+      jobId: request.jobId,
+      lesson: 2,
+      chunksIndexed: 4,
+    });
+    expect(createIngestionFailed(request, new Error("timeout"), 2)).toMatchObject({
+      eventType: "lesson.ingestion.failed",
+      jobId: request.jobId,
+      lesson: 2,
+      attempt: 2,
+      error: "timeout",
+    });
   });
 });

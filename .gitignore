@@ -4,4 +4,5 @@ dist/
 *.tsbuildinfo
 
 .env.kafka.local
+.env.azure.local
 french/*.pdf

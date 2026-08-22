@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: french-lab-config
+data:
+  KAFKA_BROKER: ehns-french-ivanyu-20260821.servicebus.windows.net:9093
+  KAFKA_TOPIC: lesson-jobs
+  KAFKA_WORKER_GROUP: french-lesson-indexer-v1
+  KAFKA_MCP_STATUS_GROUP: french-mcp-status-v1
+  AZURE_SEARCH_ENDPOINT: https://srch-french-ivanyu-20260821.search.windows.net
+  AZURE_SEARCH_INDEX: assimil-lessons
+  AZURE_OPENAI_ENDPOINT: https://aoai-french-ivanyu-20260821.openai.azure.com
+  AZURE_OPENAI_EMBEDDING_DEPLOYMENT: embedding-3-small
+  MCP_PORT: "3001"

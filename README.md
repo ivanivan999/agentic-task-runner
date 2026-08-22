@@ -85,6 +85,27 @@ AZURE_SEARCH_API_KEY=<query-or-admin-key>
 Never commit the API key. If the Azure Free service is unavailable in the
 subscription, continue using local retrieval instead of selecting a paid SKU.
 
+### Disposable Azure agent lab
+
+The `azure-french-lab` branch also demonstrates a paid, short-lived architecture:
+
+```text
+MCP tool -> Event Hubs Kafka endpoint -> ingestion worker
+                                      -> Azure OpenAI embeddings
+                                      -> Azure AI Search hybrid/vector index
+```
+
+Run the MCP endpoint and ingestion worker locally with:
+
+```bash
+npm run mcp:start --prefix backend
+npm run kafka:worker --prefix backend
+```
+
+Kubernetes manifests and deployment notes live in `deploy/k8s`. All credentials
+come from ignored local env files or a Kubernetes Secret and must never be
+committed. The paid lab resources should be deleted after the experiment.
+
 
 ## System architecture
 

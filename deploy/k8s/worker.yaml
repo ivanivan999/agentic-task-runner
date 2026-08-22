@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: french-ingestion-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: french-ingestion-worker
+  template:
+    metadata:
+      labels:
+        app: french-ingestion-worker
+    spec:
+      containers:
+        - name: worker
+          image: acrfrenchivanyu20260821.azurecr.io/french-study-lab:v1
+          imagePullPolicy: Always
+          command: ["npm", "run", "kafka:worker"]
+          envFrom:
+            - configMapRef:
+                name: french-lab-config
+            - secretRef:
+                name: french-lab-secrets
+          resources:
+            requests:
+              cpu: 100m
+              memory: 192Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
