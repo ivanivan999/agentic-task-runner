@@ -131,9 +131,6 @@ Open [http://localhost:5173](http://localhost:5173). The backend persists its JS
 
 The task runner is local, single-process, and treats "users" as a self-declared role rather than real accounts — the RBAC layer is a basic role switch (`X-Role` header), not authentication, and is documented as such rather than implied to be more. JSON persistence sits behind a `TaskRepository` interface so a real database can replace it later without touching the agent or API. Tool selection is rule-based and confidence-scored — deterministic and fully testable — rather than LLM-based, to keep the agent's core decision path offline and reproducible; the one place something is intentionally non-deterministic-looking (the weather tool's flaky mode) is actually seeded and controlled, added purely to make the retry logic demonstrable rather than to simulate a real failure. The app intentionally still omits real authentication, a real weather API, and LLM-based routing.
 
-## Time spent
-
-~6 hours total: 3h building core features (scaffold, Tool interface, three tools + tests, Agent Controller, JSON repo, Express API, basic React UI), 2h adding bonus features (Docker, retry/backoff with seeded flaky mode, SSE, RBAC, multi-step reasoning — including dependent vs independent sub-task fixes), and 1h for UI reskin and regression testing (chat-style UI and SSE "thinking" wiring).
 
 ## With more time
 
